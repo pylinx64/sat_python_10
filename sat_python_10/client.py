@@ -3,8 +3,10 @@
 import threading
 import socket
 import time
+import random
+
 import colorama
-from colorama import Fore
+from colorama import Fore, Style
 colorama.init()
 
 def receving (name, sock, switch):
@@ -29,16 +31,25 @@ host = socket.gethostbyname(socket.gethostname())
 port = 0
 
 # ip servera
-server = ("192.168.31.234", 11719)
+server = ("192.168.31.20", 11719)
 
 # сокет
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind((host,port))
 s.setblocking(0)
 
-name = input("$ name: ")
+colors = [Fore.CYAN, Fore.MAGENTA, Fore.GREEN, Fore.RED]
 
-s.sendto((str(Fore.GREEN+"["+name+"] => join chat ")).encode("utf-8"), server)
+name = input("$ name: ")
+# разбивает на буквы
+name = list(name)
+# перебивает буквы и добовляет рандомный цвет
+name = [random.choice(colors) + char + Fore.RESET for char in name]
+	
+# собирает буквы обратно
+name = ''.join(name)
+
+s.sendto((str("["+name+"] => join chat ")).encode("utf-8"), server)
 time.sleep(0.2)
 
 rT = threading.Thread(target = receving, args = ("RecvThread", s, shutdown))
@@ -46,7 +57,13 @@ rT.start()
 
 while shutdown == False:
 	try:
-		message = input("["+name+"] > ")
+		print("["+name+"] > ", end='')
+		
+		print(Fore.GREEN, end='')
+		message = input()
+		message = Fore.GREEN+message+Fore.RESET
+		print(Fore.RESET, end='')
+		
 		if message != "":
 			 s.sendto(("["+name+"] > "+message).encode("utf-8"), server)
 		time.sleep(0.2)
