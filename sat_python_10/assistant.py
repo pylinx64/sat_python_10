@@ -31,7 +31,7 @@ def google_search(msg):
 	search.send_keys(str(search_for))
 	search.send_keys(Keys.RETURN)
 
-
+'''
 # Основной код ассистента
 NAME = input('Введите имя: ') 	# запоминает имя админа
 say_bot('Привет, ' + NAME)
@@ -57,3 +57,4 @@ while True:
 		say_bot(str(h) + ':'+ str(m))
 	else:
 		say_bot('Я ВАС НЕ РОЗУМИЮ')
+'''
