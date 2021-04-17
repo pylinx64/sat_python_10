@@ -13,6 +13,9 @@ def close(event):
 # создаем окно
 root = Tk()
 
+# вырубает защиту
+pyautogui.FAILSAFE = False
+
 # длина и высота экрана
 w = root.winfo_screenwidth()
 h = root.winfo_screenheight()
